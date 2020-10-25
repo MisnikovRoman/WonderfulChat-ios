@@ -23,12 +23,18 @@ struct ContentView: View {
     @State var viewState: ViewState = .loading
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             switch viewState {
             case .loading: ProgressView()
-            case .success(let id): Text("💬\nHere will be chat\n\(id)")
+            case .success(let id): Text("💬\nHere will be chat\nid: \(id)")
             case .failure(let description): Text("⚠️\nError: \(description)")
             }
+            Button("Обновить", action: load)
+                .padding(8)
+                .background(Color.blue)
+                .accentColor(.white)
+                .cornerRadius(8)
+                .font(.body)
         }
         .font(.title)
         .multilineTextAlignment(.center)
