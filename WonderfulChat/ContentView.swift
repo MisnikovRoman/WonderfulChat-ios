@@ -20,35 +20,53 @@ struct ContentView: View {
 
     private let network = Network()
 
-    @State var viewState: ViewState = .loading
+    @State var newMessage: String = ""
+    @State var messages: [String] = ["Hello", "world", "my", "name", "is", "Roman"]
 
     var body: some View {
-        VStack(spacing: 16) {
-            switch viewState {
-            case .loading: ProgressView()
-            case .success(let id): Text("💬\nHere will be chat\nid: \(id)")
-            case .failure(let description): Text("⚠️\nError: \(description)")
+        NavigationView {
+            VStack(spacing: 16) {
+                ScrollView {
+                    ForEach(messages, id: \.self) { message in
+                        HStack {
+                            Spacer()
+                            Text(message)
+                                .foregroundColor(.white)
+                                .padding(8)
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                        }
+                    }
+                }
+                HStack {
+                    TextField("Введите сообщение", text: $newMessage)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Button { send(message: newMessage) } label: { Image(systemName: "paperplane.fill") }
+                }
             }
-            Button("Обновить", action: load)
-                .padding(8)
-                .background(Color.blue)
-                .accentColor(.white)
-                .cornerRadius(8)
-                .font(.body)
+            .navigationBarTitle("Чат")
+            .onAppear {
+                openSocket()
+                setReceiveMessageHandler()
+            }
+            .padding()
         }
-        .font(.title)
-        .multilineTextAlignment(.center)
-        .padding()
-        .onAppear(perform: load)
     }
 
-    private func load() {
-        guard let url = URL(string: Api.baseUrl + Route.chat) else { return }
-        network.get(from: url, Chat.self) { result in
-            switch result {
-            case .success(let chat): viewState = .success(chat.id)
-            case .failure(let error): viewState = .failure(error.localizedDescription)
-            }
+    private func openSocket() {
+        guard let url = URL(string: Api.websocketUrl) else { return }
+        network.connectWebSocket(url: url)
+    }
+
+    private func send(message: String) {
+        network.sendMessage(message)
+        messages.append(message)
+    }
+
+    private func setReceiveMessageHandler() {
+        network.onReceiveMessage { message in
+            messages.append(message)
+            setReceiveMessageHandler()
         }
     }
 }
@@ -58,3 +76,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
