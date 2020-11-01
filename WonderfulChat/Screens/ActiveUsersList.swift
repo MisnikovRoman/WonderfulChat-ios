@@ -46,8 +46,6 @@ struct ActiveUsersList: View {
             chatService.connect(userId: user.id.uuidString, userName: user.name)
         }.onReceive(chatService.activeUsersPublisher.receive(on: RunLoop.main)) { users in
             userNames = users
-        }.onDisappear {
-            chatService.disconnect()
         }
     }
 }

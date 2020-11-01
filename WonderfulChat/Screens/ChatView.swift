@@ -52,7 +52,7 @@ struct ChatView: View {
     }
 
     private func openSocket() {
-        guard let url = URL(string: Api.websocketUrl) else { return }
+        guard let url = URL(string: Api.heroku) else { return }
         
         var request = URLRequest(url: url)
         request.addValue(user.id.uuidString, forHTTPHeaderField: "id")

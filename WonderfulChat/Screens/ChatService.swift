@@ -14,7 +14,7 @@ class ChatService {
     let activeUsersPublisher = PassthroughSubject<[String], Never>()
     
     func connect(userId: String, userName: String) {
-        guard let url = URL(string: Api.websocketUrl) else { return }
+        guard let url = URL(string: Api.heroku + Route.chat) else { return }
         
         var request = URLRequest(url: url)
         request.addValue(userId, forHTTPHeaderField: "id")
