@@ -15,6 +15,8 @@ class Network {
 
     private let decoder = JSONDecoder()
     private var webSocketTask: URLSessionWebSocketTask?
+    
+    var onReceiveMessage: ((String) -> ())?
 
     func get<T: Decodable>(from url: URL, _ type: T.Type, completion: @escaping (Result<T, Error>)->()) {
         URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
@@ -29,10 +31,17 @@ class Network {
         }.resume()
     }
 
-    func connectWebSocket(url: URL) {
-        guard let url = URL(string: Api.websocketUrl) else { return }
-        webSocketTask = URLSession.shared.webSocketTask(with: url)
+    func connectWebSocket(request: URLRequest) {
+        if let openWebSocketTask = webSocketTask {
+            openWebSocketTask.cancel(with: .goingAway, reason: nil)
+        }
+        webSocketTask = URLSession.shared.webSocketTask(with: request)
+        setHandlerToInputMessage()
         webSocketTask?.resume()
+    }
+    
+    func disconnectWebSocket() {
+        webSocketTask?.cancel(with: .goingAway, reason: nil)
     }
 
     func sendMessage(_ text: String) {
@@ -43,24 +52,20 @@ class Network {
             assertionFailure("⚠️ Ошибка отправки сообщения: \"\(text)\"")
         }
     }
+}
 
-    func onReceiveMessage(perform: @escaping (String)->()) {
-        guard let task = webSocketTask else { return print("⚠️ Ошибка: не создано соединение с websocket") }
-        task.receive { result in
+private extension Network {
+    func setHandlerToInputMessage() {
+        webSocketTask?.receive{ [weak self] result in
             switch result {
             case .success(let message):
                 if case let .string(text) = message {
-                    perform(text)
+                    self?.onReceiveMessage?(text)
                 }
             case .failure(let error):
                 assertionFailure("⚠️ Ошибка получения сообщения: \(error.localizedDescription)")
             }
-        }
-    }
-
-    func ping() {
-        webSocketTask?.sendPing { error in
-            guard let _ = error else { return }
+            self?.setHandlerToInputMessage()
         }
     }
 }

@@ -11,8 +11,6 @@ struct Chat: Decodable {
     let id: String
 }
 
-let userId = UUID().uuidString
-
 struct ChatView: View {
     enum ViewState {
         case loading
@@ -22,11 +20,11 @@ struct ChatView: View {
 
     private let network = Network()
 
+    @EnvironmentObject var user: User
     @State var newMessage: String = ""
     @State var messages: [String] = ["Hello"]
 
     var body: some View {
-        NavigationView {
             VStack(spacing: 16) {
                 ScrollView {
                     ForEach(messages, id: \.self) { message in
@@ -46,20 +44,18 @@ struct ChatView: View {
                     Button { send(message: newMessage) } label: { Image(systemName: "paperplane.fill") }
                 }
             }
-            .navigationBarTitle(userId)
+            .navigationBarTitle(user.name)
             .onAppear {
                 openSocket()
-                setReceiveMessageHandler()
             }
             .padding()
-        }
     }
 
     private func openSocket() {
         guard let url = URL(string: Api.websocketUrl) else { return }
         
         var request = URLRequest(url: url)
-        request.addValue(userId, forHTTPHeaderField: "id")
+        request.addValue(user.id.uuidString, forHTTPHeaderField: "id")
         
         network.connectWebSocket(request: request)
     }
@@ -68,18 +64,15 @@ struct ChatView: View {
         network.sendMessage(message)
         messages.append(message)
     }
-
-    private func setReceiveMessageHandler() {
-        network.onReceiveMessage { message in
-            messages.append(message)
-            setReceiveMessageHandler()
-        }
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    private static let user = User()
     static var previews: some View {
-        ChatView()
+        NavigationView {
+            ChatView().environmentObject(user)
+                .onAppear { user.name = "Test" }
+        }
     }
 }
 

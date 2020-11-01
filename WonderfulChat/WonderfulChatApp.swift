@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct WonderfulChatApp: App {
+    
+    private let user = User()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                IntroduceView()
+            }.environmentObject(user)
         }
     }
 }

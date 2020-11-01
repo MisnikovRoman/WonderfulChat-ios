@@ -6,8 +6,8 @@
 //
 
 enum Api {
-    static let baseUrl = "http://localhost:8080"
-    static let websocketUrl = "ws://localhost:8080/roman"
+    static let baseUrl = "http://127.0.0.1:8080"
+    static let websocketUrl = "ws://127.0.0.1:8080/chat"
 }
 
 enum Route {

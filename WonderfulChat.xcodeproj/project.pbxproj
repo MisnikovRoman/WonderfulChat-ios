@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7CA643DC254ECB7900506DCC /* IntroduceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DB254ECB7900506DCC /* IntroduceView.swift */; };
+		7CA643E0254ECF0E00506DCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DF254ECF0E00506DCC /* User.swift */; };
+		7CA643E6254ED48B00506DCC /* ActiveUsersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E5254ED48B00506DCC /* ActiveUsersList.swift */; };
+		7CA643E9254EDB7300506DCC /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E8254EDB7300506DCC /* ChatService.swift */; };
 		C8B8F3CA254586CC0085E3E8 /* WonderfulChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */; };
-		C8B8F3CC254586CC0085E3E8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3CB254586CC0085E3E8 /* ContentView.swift */; };
+		C8B8F3CC254586CC0085E3E8 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3CB254586CC0085E3E8 /* ChatView.swift */; };
 		C8B8F3CE254586CE0085E3E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8B8F3CD254586CE0085E3E8 /* Assets.xcassets */; };
 		C8B8F3D1254586CE0085E3E8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8B8F3D0254586CE0085E3E8 /* Preview Assets.xcassets */; };
 		C8B8F3DB254588220085E3E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3DA254588220085E3E8 /* Constants.swift */; };
@@ -16,9 +20,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7CA643DB254ECB7900506DCC /* IntroduceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceView.swift; sourceTree = "<group>"; };
+		7CA643DF254ECF0E00506DCC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7CA643E5254ED48B00506DCC /* ActiveUsersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUsersList.swift; sourceTree = "<group>"; };
+		7CA643E8254EDB7300506DCC /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C8B8F3C6254586CC0085E3E8 /* WonderfulChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WonderfulChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderfulChatApp.swift; sourceTree = "<group>"; };
-		C8B8F3CB254586CC0085E3E8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C8B8F3CB254586CC0085E3E8 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		C8B8F3CD254586CE0085E3E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C8B8F3D0254586CE0085E3E8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C8B8F3D2254586CE0085E3E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,6 +45,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7CA643E2254ECFB600506DCC /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				7CA643DB254ECB7900506DCC /* IntroduceView.swift */,
+				7CA643E5254ED48B00506DCC /* ActiveUsersList.swift */,
+				C8B8F3CB254586CC0085E3E8 /* ChatView.swift */,
+				7CA643E8254EDB7300506DCC /* ChatService.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		C8B8F3BD254586CC0085E3E8 = {
 			isa = PBXGroup;
 			children = (
@@ -57,9 +76,10 @@
 			isa = PBXGroup;
 			children = (
 				C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */,
-				C8B8F3DD25458D830085E3E8 /* Network.swift */,
-				C8B8F3CB254586CC0085E3E8 /* ContentView.swift */,
+				7CA643E2254ECFB600506DCC /* Screens */,
+				7CA643DF254ECF0E00506DCC /* User.swift */,
 				C8B8F3DA254588220085E3E8 /* Constants.swift */,
+				C8B8F3DD25458D830085E3E8 /* Network.swift */,
 				C8B8F3CD254586CE0085E3E8 /* Assets.xcassets */,
 				C8B8F3D2254586CE0085E3E8 /* Info.plist */,
 				C8B8F3CF254586CE0085E3E8 /* Preview Content */,
@@ -144,8 +164,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8B8F3CC254586CC0085E3E8 /* ContentView.swift in Sources */,
+				7CA643DC254ECB7900506DCC /* IntroduceView.swift in Sources */,
+				C8B8F3CC254586CC0085E3E8 /* ChatView.swift in Sources */,
+				7CA643E0254ECF0E00506DCC /* User.swift in Sources */,
 				C8B8F3CA254586CC0085E3E8 /* WonderfulChatApp.swift in Sources */,
+				7CA643E6254ED48B00506DCC /* ActiveUsersList.swift in Sources */,
+				7CA643E9254EDB7300506DCC /* ChatService.swift in Sources */,
 				C8B8F3DE25458D830085E3E8 /* Network.swift in Sources */,
 				C8B8F3DB254588220085E3E8 /* Constants.swift in Sources */,
 			);
@@ -277,7 +301,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"WonderfulChat/Preview Content\"";
-				DEVELOPMENT_TEAM = V86QG4XF96;
+				DEVELOPMENT_TEAM = JJHX98NUDV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = WonderfulChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -285,7 +309,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yotateam.WonderfulChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.misnikovroman.WonderfulChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -299,7 +323,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"WonderfulChat/Preview Content\"";
-				DEVELOPMENT_TEAM = V86QG4XF96;
+				DEVELOPMENT_TEAM = JJHX98NUDV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = WonderfulChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -307,7 +331,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yotateam.WonderfulChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.misnikovroman.WonderfulChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
