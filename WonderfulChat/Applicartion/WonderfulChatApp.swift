@@ -10,13 +10,13 @@ import SwiftUI
 @main
 struct WonderfulChatApp: App {
     
-    private let user = User()
+    private let factory = ViewFactory()
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                IntroduceView()
-            }.environmentObject(user)
+                factory.introduceView()
+            }.environmentObject(factory)
         }
     }
 }

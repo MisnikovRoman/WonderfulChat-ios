@@ -1,5 +1,5 @@
 //
-//  ActiveUsersList.swift
+//  ActiveUsersListView.swift
 //  WonderfulChat
 //
 //  Created by Роман Мисников on 01.11.2020.
@@ -28,17 +28,27 @@ struct ActiveUserCard: View {
     }
 }
 
-struct ActiveUsersList: View {
+struct ActiveUsersListView: View {
     
-    private let chatService = ChatService()
-    @State var userNames: [String] = []
-    @EnvironmentObject var user: User
+    private let chatService: IChatService
+    private let user: User
+    
+    @EnvironmentObject
+    private var factory: ViewFactory
+    @State
+    private var userNames: [String] = []
+    
+    init(chatService: IChatService, user: User) {
+        self.chatService = chatService
+        self.user = user
+    }
     
     var body: some View {
-        ScrollView {
+        List {
             ForEach(userNames, id: \.self) { userName in
-                ActiveUserCard(userName: userName)
-                    .padding(.horizontal)
+                NavigationLink(destination: ChatView()) {
+                    ActiveUserCard(userName: userName)
+                }
             }
         }
         .navigationBarTitle("Active users")
@@ -51,13 +61,23 @@ struct ActiveUsersList: View {
 }
 
 struct ActiveUsersList_Previews: PreviewProvider {
+    
+    static let mockUser: User = {
+        let user = User()
+        user.name = "Roman"
+        return user
+    }()
+
     static var previews: some View {
         Group {
             ActiveUserCard(userName: "Roman")
                 .previewLayout(.sizeThatFits)
             NavigationView {
-                ActiveUsersList()
+                ActiveUsersListView(chatService: MockChatService(), user: mockUser)
             }
+            NavigationView {
+                ActiveUsersListView(chatService: MockChatService(), user: mockUser)
+            }.environment(\.colorScheme, .dark)
         }
     }
 }

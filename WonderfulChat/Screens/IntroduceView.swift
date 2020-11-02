@@ -9,29 +9,39 @@ import SwiftUI
 
 struct IntroduceView: View {
     
-    @EnvironmentObject var user: User
-    @State var userNameInput: String = ""
+    private let user: User
+    
+    @EnvironmentObject
+    private var factory: ViewFactory
+    @State
+    private var userNameInput: String = ""
+    
+    init(user: User) {
+        self.user = user
+    }
     
     var body: some View {
         ZStack {
-            TextField("name", text: $user.name)
+            TextField("name", text: $userNameInput)
                 .multilineTextAlignment(.center)
                 .font(.largeTitle)
             VStack {
                 Spacer()
-                NavigationLink("Next", destination: ActiveUsersList())
+                NavigationLink("Next", destination: factory.activeUsersListView())
                     .padding()
             }
         }
         .navigationBarTitle("Introduce yourself")
+        .onChange(of: userNameInput) { user.name = $0 }
     }
 }
 
 struct IntroduceView_Previews: PreviewProvider {
+    static let mockUser = User()
+    
     static var previews: some View {
         NavigationView {
-            IntroduceView()
-                .environmentObject(User())
+            IntroduceView(user: mockUser).environmentObject(ViewFactory())
         }
     }
 }

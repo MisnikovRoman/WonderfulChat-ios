@@ -69,3 +69,9 @@ private extension Network {
         }
     }
 }
+
+extension URL {
+    init?(scheme: API.Scheme, host: API.Host, path: API.Path) {
+        self.init(string: scheme.rawValue + host.rawValue + path.rawValue)
+    }
+}

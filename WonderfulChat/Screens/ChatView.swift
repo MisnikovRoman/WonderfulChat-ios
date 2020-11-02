@@ -12,17 +12,9 @@ struct Chat: Decodable {
 }
 
 struct ChatView: View {
-    enum ViewState {
-        case loading
-        case failure(String)
-        case success(String)
-    }
-
-    private let network = Network()
-
-    @EnvironmentObject var user: User
-    @State var newMessage: String = ""
-    @State var messages: [String] = ["Hello"]
+    @EnvironmentObject private var user: User
+    @State private var newMessage: String = ""
+    @State private var messages: [String] = ["Hello"]
 
     var body: some View {
             VStack(spacing: 16) {
@@ -45,23 +37,11 @@ struct ChatView: View {
                 }
             }
             .navigationBarTitle(user.name)
-            .onAppear {
-                openSocket()
-            }
             .padding()
     }
 
-    private func openSocket() {
-        guard let url = URL(string: Api.heroku) else { return }
-        
-        var request = URLRequest(url: url)
-        request.addValue(user.id.uuidString, forHTTPHeaderField: "id")
-        
-        network.connectWebSocket(request: request)
-    }
-
     private func send(message: String) {
-        network.sendMessage(message)
+        // network.sendMessage(message)private
         messages.append(message)
     }
 }

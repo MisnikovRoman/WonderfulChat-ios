@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		7CA643DC254ECB7900506DCC /* IntroduceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DB254ECB7900506DCC /* IntroduceView.swift */; };
 		7CA643E0254ECF0E00506DCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DF254ECF0E00506DCC /* User.swift */; };
-		7CA643E6254ED48B00506DCC /* ActiveUsersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E5254ED48B00506DCC /* ActiveUsersList.swift */; };
+		7CA643E6254ED48B00506DCC /* ActiveUsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */; };
 		7CA643E9254EDB7300506DCC /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E8254EDB7300506DCC /* ChatService.swift */; };
+		C80D9A2F255080B000B0376A /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D9A2E255080B000B0376A /* ViewFactory.swift */; };
+		C80D9A32255085AF00B0376A /* MockChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D9A31255085AF00B0376A /* MockChatService.swift */; };
 		C8B8F3CA254586CC0085E3E8 /* WonderfulChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */; };
 		C8B8F3CC254586CC0085E3E8 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3CB254586CC0085E3E8 /* ChatView.swift */; };
 		C8B8F3CE254586CE0085E3E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8B8F3CD254586CE0085E3E8 /* Assets.xcassets */; };
@@ -22,8 +24,10 @@
 /* Begin PBXFileReference section */
 		7CA643DB254ECB7900506DCC /* IntroduceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceView.swift; sourceTree = "<group>"; };
 		7CA643DF254ECF0E00506DCC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		7CA643E5254ED48B00506DCC /* ActiveUsersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUsersList.swift; sourceTree = "<group>"; };
+		7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUsersListView.swift; sourceTree = "<group>"; };
 		7CA643E8254EDB7300506DCC /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		C80D9A2E255080B000B0376A /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
+		C80D9A31255085AF00B0376A /* MockChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockChatService.swift; sourceTree = "<group>"; };
 		C8B8F3C6254586CC0085E3E8 /* WonderfulChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WonderfulChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderfulChatApp.swift; sourceTree = "<group>"; };
 		C8B8F3CB254586CC0085E3E8 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -49,11 +53,47 @@
 			isa = PBXGroup;
 			children = (
 				7CA643DB254ECB7900506DCC /* IntroduceView.swift */,
-				7CA643E5254ED48B00506DCC /* ActiveUsersList.swift */,
+				7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */,
 				C8B8F3CB254586CC0085E3E8 /* ChatView.swift */,
-				7CA643E8254EDB7300506DCC /* ChatService.swift */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		C80D9A28254F587800B0376A /* Applicartion */ = {
+			isa = PBXGroup;
+			children = (
+				C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */,
+				C80D9A2E255080B000B0376A /* ViewFactory.swift */,
+			);
+			path = Applicartion;
+			sourceTree = "<group>";
+		};
+		C80D9A29254F588F00B0376A /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				7CA643DF254ECF0E00506DCC /* User.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		C80D9A2A254F58A100B0376A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C8B8F3DD25458D830085E3E8 /* Network.swift */,
+				7CA643E8254EDB7300506DCC /* ChatService.swift */,
+				C80D9A31255085AF00B0376A /* MockChatService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C80D9A2B254F58AD00B0376A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C8B8F3DA254588220085E3E8 /* Constants.swift */,
+				C8B8F3CD254586CE0085E3E8 /* Assets.xcassets */,
+				C8B8F3D2254586CE0085E3E8 /* Info.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		C8B8F3BD254586CC0085E3E8 = {
@@ -75,13 +115,11 @@
 		C8B8F3C8254586CC0085E3E8 /* WonderfulChat */ = {
 			isa = PBXGroup;
 			children = (
-				C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */,
+				C80D9A28254F587800B0376A /* Applicartion */,
 				7CA643E2254ECFB600506DCC /* Screens */,
-				7CA643DF254ECF0E00506DCC /* User.swift */,
-				C8B8F3DA254588220085E3E8 /* Constants.swift */,
-				C8B8F3DD25458D830085E3E8 /* Network.swift */,
-				C8B8F3CD254586CE0085E3E8 /* Assets.xcassets */,
-				C8B8F3D2254586CE0085E3E8 /* Info.plist */,
+				C80D9A29254F588F00B0376A /* Entities */,
+				C80D9A2B254F58AD00B0376A /* Supporting Files */,
+				C80D9A2A254F58A100B0376A /* Services */,
 				C8B8F3CF254586CE0085E3E8 /* Preview Content */,
 			);
 			path = WonderfulChat;
@@ -168,10 +206,12 @@
 				C8B8F3CC254586CC0085E3E8 /* ChatView.swift in Sources */,
 				7CA643E0254ECF0E00506DCC /* User.swift in Sources */,
 				C8B8F3CA254586CC0085E3E8 /* WonderfulChatApp.swift in Sources */,
-				7CA643E6254ED48B00506DCC /* ActiveUsersList.swift in Sources */,
+				C80D9A2F255080B000B0376A /* ViewFactory.swift in Sources */,
+				7CA643E6254ED48B00506DCC /* ActiveUsersListView.swift in Sources */,
 				7CA643E9254EDB7300506DCC /* ChatService.swift in Sources */,
 				C8B8F3DE25458D830085E3E8 /* Network.swift in Sources */,
 				C8B8F3DB254588220085E3E8 /* Constants.swift in Sources */,
+				C80D9A32255085AF00B0376A /* MockChatService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,7 +343,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WonderfulChat/Preview Content\"";
 				DEVELOPMENT_TEAM = JJHX98NUDV;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = WonderfulChat/Info.plist;
+				INFOPLIST_FILE = "WonderfulChat/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -325,7 +365,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WonderfulChat/Preview Content\"";
 				DEVELOPMENT_TEAM = JJHX98NUDV;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = WonderfulChat/Info.plist;
+				INFOPLIST_FILE = "WonderfulChat/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

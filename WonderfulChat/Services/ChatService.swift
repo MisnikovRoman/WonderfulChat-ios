@@ -8,13 +8,24 @@
 import Foundation
 import Combine
 
+protocol IChatService {
+    var activeUsersPublisher: AnyPublisher<[String], Never> { get }
+    func connect(userId: String, userName: String)
+    func disconnect()
+}
+
 class ChatService {
     private let network = Network()
+    private let activeUsersPassthroughSubject = PassthroughSubject<[String], Never>()
+}
 
-    let activeUsersPublisher = PassthroughSubject<[String], Never>()
+extension ChatService: IChatService {
+    var activeUsersPublisher: AnyPublisher<[String], Never> {
+        activeUsersPassthroughSubject.eraseToAnyPublisher()
+    }
     
     func connect(userId: String, userName: String) {
-        guard let url = URL(string: Api.heroku + Route.chat) else { return }
+        guard let url = URL(scheme: .ws, host: .heroku, path: .chat) else { return }
         
         var request = URLRequest(url: url)
         request.addValue(userId, forHTTPHeaderField: "id")
@@ -31,7 +42,7 @@ class ChatService {
 
 private extension ChatService {
     func handleIncomingMessage(message: String) {
-        activeUsersPublisher.send(
+        activeUsersPassthroughSubject.send(
             message
                 .replacingOccurrences(of: " ", with: "")
                 .split(separator: ",")
