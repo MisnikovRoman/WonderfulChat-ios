@@ -13,10 +13,11 @@ protocol IChatService {
     var isConnected: Bool { get }
     func connect(userId: String, userName: String)
     func disconnect()
+    func send(_ text: String)
 }
 
 protocol ChatServiceDelegate: AnyObject {
-    func didReceive(message: String, from: String)
+    func didReceive(message: Message)
     func didReceive(activeUsers: [String])
     func didReceive(error: Error)
     func didConnect()
@@ -60,8 +61,8 @@ extension ChatService: IChatService {
         webSocketTask = nil
     }
     
-    func send(message: String) {
-        webSocketTask?.send(.string(message)) { [weak self] error in
+    func send(_ text: String) {
+        webSocketTask?.send(.string(text)) { [weak self] error in
             guard let error = error else { return }
             self?.delegate?.didReceive(error: error)
             LocalNotifications.shared.present(
@@ -120,11 +121,12 @@ private extension ChatService {
     func handleIncomingMessage(message: URLSessionWebSocketTask.Message) {
         guard case let .string(text) = message else { return }
         LocalNotifications.shared.present(title: "💬 Новое сообщение", subtitle: text)
-        let activeUsers = text
-            .replacingOccurrences(of: " ", with: "")
-            .split(separator: ",")
-            .map { String($0) }
-        delegate?.didReceive(activeUsers: activeUsers)
+    
+        if let message = try? JSONDecoder().decode(Message.self, from: Data(text.utf8)) {
+            delegate?.didReceive(message: message)
+        } else if let users = try? JSONDecoder().decode([User].self, from: Data(text.utf8)) {
+            delegate?.didReceive(activeUsers: users.map { $0.name })
+        }
     }
     
     func runPingTimer() {

@@ -38,7 +38,7 @@ class ViewFactory: IViewFactory {
     }
     
     func chatView(user: User) -> AnyView {
-        let viewModel = ChatViewModel(user: user)
+        let viewModel = ChatViewModel(user: user, authorizationService: authorizationService, chatService: chatService)
         let view = ChatView(viewModel: viewModel)
         return AnyView(view)
     }

@@ -8,8 +8,10 @@
 import Combine
 
 class MockChatService: IChatService {
+    
     weak var delegate: ChatServiceDelegate?
     let isConnected: Bool = true
     func connect(userId: String, userName: String) {}
     func disconnect() {}
+    func send(_ text: String) {}
 }

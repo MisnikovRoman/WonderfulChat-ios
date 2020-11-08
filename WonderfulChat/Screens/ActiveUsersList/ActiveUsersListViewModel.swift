@@ -61,11 +61,16 @@ class ActiveUsersListViewModel: ObservableObject {
     }
     
     func didDisappear() {
-        chatService.disconnect()
+        // nothing
+    }
+    
+    func testSendMessage() {
+        chatService.send("👋🏻 Hello websocket")
     }
 }
 
 extension ActiveUsersListViewModel: ChatServiceDelegate {
+
     func didConnect() {
         //
     }
@@ -74,7 +79,7 @@ extension ActiveUsersListViewModel: ChatServiceDelegate {
         //
     }
     
-    func didReceive(message: String, from: String) {
+    func didReceive(message: Message) {
         //
     }
     

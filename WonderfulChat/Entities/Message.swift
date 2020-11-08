@@ -7,12 +7,9 @@
 
 import Foundation
 
-enum MessageSender: Equatable, Hashable {
-    case myself, user(id: String)
-}
-
-struct Message: Identifiable, Hashable {
-    let id = UUID()
+struct Message: Codable {
+    let id: String
+    let senderId: String
+    let receiverId: String
     let text: String
-    let sender: MessageSender
 }
