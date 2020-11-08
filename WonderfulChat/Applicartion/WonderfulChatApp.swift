@@ -6,17 +6,30 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 @main
 struct WonderfulChatApp: App {
     
-    private let factory = ViewFactory()
+    private let viewFactory = ViewFactory()
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                factory.introduceView()
-            }.environmentObject(factory)
+                viewFactory.activeUsersListView()
+            }
+            .onAppear(perform: setupLocalNotifications)
+        }
+    }
+}
+
+extension WonderfulChatApp {
+    func setupLocalNotifications() {
+        let options: UNAuthorizationOptions = [.badge, .alert]
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { (didAllow, error) in
+            if !didAllow {
+                print("⚠️ User has declined notifications")
+            }
         }
     }
 }

@@ -7,7 +7,16 @@
 
 import SwiftUI
 
-class User: ObservableObject {
-    let id = UUID()
-    @Published var name: String = ""
+struct User: Identifiable {
+    var id: String
+    var name: String
+    
+    init(id: String, name: String) {
+        self.id = id
+        self.name = name
+    }
+    
+    init(name: String) {
+        self.init(id: UUID().uuidString, name: name)
+    }
 }

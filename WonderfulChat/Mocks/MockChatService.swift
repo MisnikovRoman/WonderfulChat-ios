@@ -8,10 +8,8 @@
 import Combine
 
 class MockChatService: IChatService {
-    var activeUsersPublisher: AnyPublisher<[String], Never> {
-        Just(["Ivan", "Stepan"]).eraseToAnyPublisher()
-    }
-    
+    weak var delegate: ChatServiceDelegate?
+    let isConnected: Bool = true
     func connect(userId: String, userName: String) {}
     func disconnect() {}
 }
