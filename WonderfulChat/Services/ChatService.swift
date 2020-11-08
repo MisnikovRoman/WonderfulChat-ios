@@ -25,11 +25,16 @@ protocol ChatServiceDelegate: AnyObject {
 
 class ChatService: NSObject {
     weak var delegate: ChatServiceDelegate?
+    private let settingsContainer: SettingContainer
     private var webSocketTask: URLSessionWebSocketTask?
     private var pingTimer: Timer?
     private lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
-    // Обновляется после получения Pong
+    /// Обновляется после получения Pong
     private var isPingSuccess: Bool = false
+    
+    init(settingsContainer: SettingContainer) {
+        self.settingsContainer = settingsContainer
+    }
 }
 
 // MARK: - IChatService
@@ -91,7 +96,7 @@ extension ChatService: URLSessionWebSocketDelegate {
 private extension ChatService {
     
     func createRequest(userId: String, userName: String) -> URLRequest? {
-        guard let url = URL(scheme: .ws, host: .heroku, path: .chat) else { return nil }
+        guard let url = URL(scheme: .ws, host: settingsContainer.selectedEndpoint, path: .chat) else { return nil }
         
         var request = URLRequest(url: url)
         request.addValue(userId, forHTTPHeaderField: "id")

@@ -11,6 +11,7 @@ protocol IAuthorizationService {
     /// Источник событий авторизации пользователя
     var authorizationPublisher: AnyPublisher<User?, Never> { get }
     var isAuthorized: Bool { get }
+    var user: User? { get }
     func logIn(user: User)
     func logOut()
 }
@@ -34,8 +35,13 @@ class AuthorizationService: IAuthorizationService {
         }
     }
     
+    var user: User? {
+        guard let id = userId, let name = userName else { return nil }
+        return User(id: id, name: name)
+    }
+    
     var isAuthorized: Bool {
-        userName != nil && userId != nil
+        user != nil
     }
     
     func logIn(user: User) {

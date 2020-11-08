@@ -6,17 +6,17 @@
 //
 
 enum API {
-    enum Scheme: String {
+    enum Scheme: String, CaseIterable {
         case ws = "ws://"
         case https = "https://"
     }
     
-    enum Host: String {
+    enum Host: String, CaseIterable {
         case local = "127.0.0.1:8080"
         case heroku = "wonderfulchat.herokuapp.com"
     }
     
-    enum Path: String {
+    enum Path: String, CaseIterable {
         case chat = "/chat"
     }
 }

@@ -22,7 +22,7 @@ class ActiveUsersListViewModel: ObservableObject {
     
     // private varibles
     private var trash: [AnyCancellable] = []
-    private var user: User?
+    private var user: User? { authorizationService.user }
     
     // public variables
     @Published
