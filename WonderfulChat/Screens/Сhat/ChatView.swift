@@ -42,9 +42,15 @@ struct NewMessageView: View {
     var body: some View {
         HStack {
             TextField("Введите сообщение", text: $newMessage)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                //.textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(8)
+                .background(Color(UIColor.systemGray4))
+                .cornerRadius(8)
+                .lineLimit(4)
             Button(action: sendAction) {
                 Image(systemName: "paperplane.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
             }
         }
     }
