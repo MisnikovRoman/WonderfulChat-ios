@@ -79,13 +79,9 @@ extension ActiveUsersListViewModel: ChatServiceDelegate {
         //
     }
     
-    func didReceive(message: Message) {
-        //
-    }
-    
     func didReceive(activeUsers: [String]) {
         DispatchQueue.main.async {
-            self.activeUsers = activeUsers            
+            self.activeUsers = activeUsers
         }
     }
     

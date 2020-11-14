@@ -9,15 +9,25 @@ import Foundation
 import Combine
 
 protocol IChatService {
+    /// Делегат событий сервиса работы с вебсокетом
     var delegate: ChatServiceDelegate? { get set }
+    /// Активность подключения к вебсокету
     var isConnected: Bool { get }
+    /// Паблишер новых сообщений
+    var messagesPublisher: AnyPublisher<Message, Never> { get }
+    
+    /// Подключение к вебсокету
+    /// - Parameters:
+    ///   - userId: id нового пользователя
+    ///   - userName: имя нового пользователя
     func connect(userId: String, userName: String)
+    /// Отключение от вебсокета
     func disconnect()
+    /// Отправка сообщения на сервер
     func send(_ text: String)
 }
 
 protocol ChatServiceDelegate: AnyObject {
-    func didReceive(message: Message)
     func didReceive(activeUsers: [String])
     func didReceive(error: Error)
     func didConnect()
@@ -32,6 +42,7 @@ class ChatService: NSObject {
     private lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
     /// Обновляется после получения Pong
     private var isPingSuccess: Bool = false
+    private var messagesPassthroughtSubject = PassthroughSubject<Message, Never>()
     
     init(settingsContainer: SettingContainer) {
         self.settingsContainer = settingsContainer
@@ -40,6 +51,10 @@ class ChatService: NSObject {
 
 // MARK: - IChatService
 extension ChatService: IChatService {
+    
+    var messagesPublisher: AnyPublisher<Message, Never> {
+        messagesPassthroughtSubject.eraseToAnyPublisher()
+    }
     
     var isConnected: Bool {
         return webSocketTask != nil && isPingSuccess
@@ -51,7 +66,6 @@ extension ChatService: IChatService {
         
         webSocketTask = session.webSocketTask(with: request)
         webSocketTask?.resume()
-        
         setInputMessageHandler()
     }
     
@@ -60,7 +74,7 @@ extension ChatService: IChatService {
         webSocketTask?.cancel(with: .goingAway, reason: nil)
         webSocketTask = nil
     }
-    
+
     func send(_ text: String) {
         webSocketTask?.send(.string(text)) { [weak self] error in
             guard let error = error else { return }
@@ -123,7 +137,7 @@ private extension ChatService {
         LocalNotifications.shared.present(title: "💬 Новое сообщение", subtitle: text)
     
         if let message = try? JSONDecoder().decode(Message.self, from: Data(text.utf8)) {
-            delegate?.didReceive(message: message)
+            messagesPassthroughtSubject.send(message)
         } else if let users = try? JSONDecoder().decode([User].self, from: Data(text.utf8)) {
             delegate?.didReceive(activeUsers: users.map { $0.name })
         }

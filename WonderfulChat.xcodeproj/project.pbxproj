@@ -127,8 +127,8 @@
 		C80DB0F12554810E00C7BD64 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
-				7CA643DB254ECB7900506DCC /* AuthorizationView.swift */,
 				C80DB0EE2554810900C7BD64 /* AuthorizationViewModel.swift */,
+				7CA643DB254ECB7900506DCC /* AuthorizationView.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -136,8 +136,8 @@
 		C80DB0F4255487E200C7BD64 /* ActiveUsersList */ = {
 			isa = PBXGroup;
 			children = (
-				7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */,
 				C80DB0F6255487F900C7BD64 /* ActiveUsersListViewModel.swift */,
+				7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */,
 			);
 			path = ActiveUsersList;
 			sourceTree = "<group>";
@@ -155,8 +155,8 @@
 		C80DB10425569B6B00C7BD64 /* Сhat */ = {
 			isa = PBXGroup;
 			children = (
-				C8B8F3CB254586CC0085E3E8 /* ChatView.swift */,
 				C80DB10625569B7D00C7BD64 /* ChatViewModel.swift */,
+				C8B8F3CB254586CC0085E3E8 /* ChatView.swift */,
 			);
 			path = "Сhat";
 			sourceTree = "<group>";
@@ -164,8 +164,8 @@
 		C87740462557D091006F0C65 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
-				C87740402557C297006F0C65 /* DebugView.swift */,
 				C87740432557D08C006F0C65 /* DebugViewModel.swift */,
+				C87740402557C297006F0C65 /* DebugView.swift */,
 			);
 			path = Debug;
 			sourceTree = "<group>";

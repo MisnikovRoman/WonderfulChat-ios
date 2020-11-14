@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 struct MessageViewModel: Identifiable {
     let id = UUID()
@@ -16,6 +17,9 @@ struct MessageViewModel: Identifiable {
 class ChatViewModel: ObservableObject {
     private let authorizationService: IAuthorizationService
     private let chatService: IChatService
+    private var cancellable: AnyCancellable?
+    
+    /// Собеседник
     let interlocutor: User
     
     @Published
@@ -28,6 +32,7 @@ class ChatViewModel: ObservableObject {
         self.authorizationService = authorizationService
         self.chatService = chatService
         addMockMessages()
+        setup()
     }
     
     func sendMessage() {
@@ -44,6 +49,13 @@ class ChatViewModel: ObservableObject {
 }
 
 private extension ChatViewModel {
+    
+    func setup() {
+        cancellable = chatService.messagesPublisher.sink { [weak self] newMessage in
+            let messageViewModel = MessageViewModel(text: newMessage.text, isMyMessage: false)
+            self?.messages.append(messageViewModel)
+        }
+    }
     
     func isMyMessage(_ message: Message) -> Bool {
         message.senderId == authorizationService.user?.id
