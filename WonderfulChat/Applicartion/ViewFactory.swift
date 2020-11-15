@@ -17,8 +17,9 @@ protocol IViewFactory {
 class ViewFactory: IViewFactory {
     
     // depencencies
-    private let chatService = ChatService()
     private let authorizationService = AuthorizationService()
+    private let settingContainer = SettingContainer()
+    private lazy var chatService = ChatService(settingsContainer: settingContainer)
     
     func authorizationView() -> AnyView {
         let viewModel = AuthorizationViewModel(
@@ -37,8 +38,14 @@ class ViewFactory: IViewFactory {
     }
     
     func chatView(user: User) -> AnyView {
-        let viewModel = ChatViewModel(user: user)
+        let viewModel = ChatViewModel(user: user, authorizationService: authorizationService, chatService: chatService)
         let view = ChatView(viewModel: viewModel)
+        return AnyView(view)
+    }
+    
+    func debugView() -> AnyView {
+        let viewModel = DebugViewModel(settingsContainer: settingContainer, chatService: chatService)
+        let view = DebugView(viewModel: viewModel)
         return AnyView(view)
     }
 }

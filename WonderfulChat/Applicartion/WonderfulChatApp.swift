@@ -15,8 +15,20 @@ struct WonderfulChatApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                viewFactory.activeUsersListView()
+            TabView {
+                NavigationView {
+                    viewFactory.activeUsersListView()
+                }.tabItem {
+                    Image(systemName: "message.fill")
+                    Text("Chat")
+                }
+                
+                NavigationView {
+                    viewFactory.debugView()
+                }.tabItem {
+                    Image(systemName: "hammer.fill")
+                    Text("Debug")
+                }
             }
             .onAppear(perform: setupLocalNotifications)
         }

@@ -22,7 +22,7 @@ class ActiveUsersListViewModel: ObservableObject {
     
     // private varibles
     private var trash: [AnyCancellable] = []
-    private var user: User?
+    private var user: User? { authorizationService.user }
     
     // public variables
     @Published
@@ -61,11 +61,16 @@ class ActiveUsersListViewModel: ObservableObject {
     }
     
     func didDisappear() {
-        chatService.disconnect()
+        // nothing
+    }
+    
+    func testSendMessage() {
+        chatService.send("👋🏻 Hello websocket")
     }
 }
 
 extension ActiveUsersListViewModel: ChatServiceDelegate {
+
     func didConnect() {
         //
     }
@@ -74,13 +79,9 @@ extension ActiveUsersListViewModel: ChatServiceDelegate {
         //
     }
     
-    func didReceive(message: String, from: String) {
-        //
-    }
-    
     func didReceive(activeUsers: [String]) {
         DispatchQueue.main.async {
-            self.activeUsers = activeUsers            
+            self.activeUsers = activeUsers
         }
     }
     

@@ -9,27 +9,21 @@ import SwiftUI
 
 // MARK: - Message cell
 struct MessageCell: View {
-    let message: Message
+    let message: MessageViewModel
     
     private let myMessagesColor = Color.blue
     private let otherMessagesColor = Color.gray
 
     var body: some View {
         HStack {
-            if isMyMessage { Spacer() }
+            if message.isMyMessage { Spacer() }
             Text(message.text)
                 .foregroundColor(.white)
                 .padding(8)
-                .background(isMyMessage ? myMessagesColor : otherMessagesColor)
+                .background(message.isMyMessage ? myMessagesColor : otherMessagesColor)
                 .cornerRadius(8)
-            if !isMyMessage { Spacer() }
+            if !message.isMyMessage { Spacer() }
         }
-    }
-}
-
-private extension MessageCell {
-    var isMyMessage: Bool {
-        message.sender == .myself
     }
 }
 
@@ -42,9 +36,15 @@ struct NewMessageView: View {
     var body: some View {
         HStack {
             TextField("Введите сообщение", text: $newMessage)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                //.textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(8)
+                .background(Color(UIColor.systemGray4))
+                .cornerRadius(8)
+                .lineLimit(4)
             Button(action: sendAction) {
                 Image(systemName: "paperplane.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
             }
         }
     }
@@ -62,7 +62,7 @@ struct ChatView: View {
                 //https://www.hackingwithswift.com/books/ios-swiftui/scrollview-effects-using-geometryreader
                 //https://www.process-one.net/blog/writing-a-custom-scroll-view-with-swiftui-in-a-chat-application/
                 ScrollView {
-                    ForEach(viewModel.messages, id: \.self) { message in
+                    ForEach(viewModel.messages) { message in
                         MessageCell(message: message)
                     }
                 }
@@ -71,7 +71,7 @@ struct ChatView: View {
                     newMessage: $viewModel.newMessage,
                     sendAction: viewModel.sendMessage)
             }
-            .navigationBarTitle(viewModel.user.name)
+            .navigationBarTitle(viewModel.interlocutor.name)
             .padding()
     }
 }
@@ -81,16 +81,18 @@ struct ContentView_Previews: PreviewProvider {
     private static let user = User(name: "Test")
     static var previews: some View {
         Group {
-            MessageCell(message: Message(text: "Hello world", sender: .myself))
+            MessageCell(message: MessageViewModel(text: "Hello world", isMyMessage: true))
                 .previewLayout(.sizeThatFits)
-            MessageCell(message: Message(text: "Lorem ipsum dolor", sender: .user(id: "0")))
+            MessageCell(message: MessageViewModel(text: "Lorem ipsum dolor", isMyMessage: false))
                 .previewLayout(.sizeThatFits)
             NewMessageView(newMessage: .constant(""), sendAction: { print("📨 Sending") })
                 .previewLayout(.sizeThatFits)
             NavigationView {
                 ChatView(
                     viewModel: ChatViewModel(
-                        user: User(name: "Test")))
+                        user: User(name: "Test"),
+                        authorizationService: MockAuthorizationService(),
+                        chatService: MockChatService()))
             }
         }
     }

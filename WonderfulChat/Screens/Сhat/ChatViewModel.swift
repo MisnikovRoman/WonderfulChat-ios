@@ -6,32 +6,79 @@
 //
 
 import Foundation
+import Combine
+
+struct MessageViewModel: Identifiable {
+    let id = UUID()
+    let text: String
+    let isMyMessage: Bool
+}
 
 class ChatViewModel: ObservableObject {
-    let user: User
+    private let authorizationService: IAuthorizationService
+    private let chatService: IChatService
+    private var cancellable: AnyCancellable?
+    
+    /// Собеседник
+    let interlocutor: User
     
     @Published
-    var messages: [Message] = []
+    var messages: [MessageViewModel] = []
     @Published
     var newMessage: String = ""
     
-    init(user: User) {
-        self.user = user
+    init(user: User, authorizationService: IAuthorizationService, chatService: IChatService) {
+        self.interlocutor = user
+        self.authorizationService = authorizationService
+        self.chatService = chatService
         addMockMessages()
+        setup()
     }
     
     func sendMessage() {
         guard newMessage != "" else { return }
-        messages.append(Message(text: newMessage, sender: .myself))
-        newMessage = ""
+        defer { newMessage = "" }
+        messages.append(MessageViewModel(text: newMessage, isMyMessage: true))
+        let message = Message(
+            id: UUID().uuidString,
+            senderId: authorizationService.user?.id ?? "",
+            receiverId: interlocutor.id,
+            text: newMessage)
+        chatService.send(message.toJsonString())
+    }
+}
+
+private extension ChatViewModel {
+    
+    func setup() {
+        cancellable = chatService.messagesPublisher.sink { [weak self] newMessage in
+            let messageViewModel = MessageViewModel(text: newMessage.text, isMyMessage: false)
+            self?.messages.append(messageViewModel)
+        }
     }
     
-    private func addMockMessages() {
+    func isMyMessage(_ message: Message) -> Bool {
+        message.senderId == authorizationService.user?.id
+    }
+
+    func addMockMessages() {
         messages = [
-            Message(text: "Hello", sender: .user(id: user.id)),
-            Message(text: "How are you?", sender: .user(id: user.id)),
-            Message(text: "Hi ✌️", sender: .myself),
-            Message(text: "I'm fine", sender: .myself)
+            MessageViewModel(text: "Hello", isMyMessage: false),
+            MessageViewModel(text: "How are you?", isMyMessage: false),
+            MessageViewModel(text: "Hi ✌️", isMyMessage: true),
+            MessageViewModel(text: "I'm fine", isMyMessage: true)
         ]
+    }
+}
+
+private extension Encodable {
+    func toJsonString() -> String {
+        guard let data = try? JSONEncoder().encode(self),
+              let json = String(data: data, encoding: .utf8)
+        else {
+            assertionFailure("Невозможно декодировать данные")
+            return ""
+        }
+        return json
     }
 }

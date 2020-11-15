@@ -47,13 +47,25 @@ struct ActiveUsersListView: View {
     var viewModel: ActiveUsersListViewModel
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.flexible(minimum: 10))]) {
-                ForEach(viewModel.activeUsers, id: \.self) { userName in
-                    NavigationLink(destination: viewModel.go(to: .chat(User(name: userName)))) {
-                        ActiveUserCard(userName: userName)
+        VStack {
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.flexible(minimum: 10))]) {
+                    ForEach(viewModel.activeUsers, id: \.self) { userName in
+                        NavigationLink(destination: viewModel.go(to: .chat(User(name: userName)))) {
+                            ActiveUserCard(userName: userName)
+                        }
                     }
                 }
+            }
+        
+            Button(action: viewModel.testSendMessage) {
+                HStack {
+                    Image(systemName: "exclamationmark.bubble.fill")
+                    Text("Send test message")
+                }.padding(12)
+                .background(Color(.systemGray))
+                .foregroundColor(.white)
+                .cornerRadius(20)
             }
         }
         .padding()

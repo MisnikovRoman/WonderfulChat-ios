@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct User: Identifiable {
-    var id: String
+struct User: Identifiable, Codable {
+    let id: String
     var name: String
     
     init(id: String, name: String) {
