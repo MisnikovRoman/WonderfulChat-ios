@@ -48,4 +48,10 @@ class ViewFactory: IViewFactory {
         let view = DebugView(viewModel: viewModel)
         return AnyView(view)
     }
+    
+    func errorView(description: String, retryAction: (() -> Void)? = nil) -> AnyView {
+        let viewModel = ErrorViewModel()
+        let view = ErrorView(viewModel: viewModel)
+        return AnyView(view)
+    }
 }

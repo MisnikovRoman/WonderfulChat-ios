@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C7FDBEA25612B7A009C9163 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7FDBE925612B7A009C9163 /* ErrorView.swift */; };
+		7C7FDBEE25612B89009C9163 /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7FDBED25612B89009C9163 /* ErrorViewModel.swift */; };
 		7CA643DC254ECB7900506DCC /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DB254ECB7900506DCC /* AuthorizationView.swift */; };
 		7CA643E0254ECF0E00506DCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DF254ECF0E00506DCC /* User.swift */; };
 		7CA643E6254ED48B00506DCC /* ActiveUsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C7FDBE925612B7A009C9163 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		7C7FDBED25612B89009C9163 /* ErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
 		7CA643DB254ECB7900506DCC /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		7CA643DF254ECF0E00506DCC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUsersListView.swift; sourceTree = "<group>"; };
@@ -73,6 +77,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C7FDBE825612B5D009C9163 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				7C7FDBE925612B7A009C9163 /* ErrorView.swift */,
+				7C7FDBED25612B89009C9163 /* ErrorViewModel.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		7CA643E2254ECFB600506DCC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +93,7 @@
 				C80DB0F4255487E200C7BD64 /* ActiveUsersList */,
 				C80DB10425569B6B00C7BD64 /* Сhat */,
 				C87740462557D091006F0C65 /* Debug */,
+				7C7FDBE825612B5D009C9163 /* Error */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -294,6 +308,7 @@
 				C80DB0EF2554810900C7BD64 /* AuthorizationViewModel.swift in Sources */,
 				7CA643E0254ECF0E00506DCC /* User.swift in Sources */,
 				C8B8F3CA254586CC0085E3E8 /* WonderfulChatApp.swift in Sources */,
+				7C7FDBEA25612B7A009C9163 /* ErrorView.swift in Sources */,
 				C80DB1022554939300C7BD64 /* MockAuthorizationService.swift in Sources */,
 				C80DB0F7255487F900C7BD64 /* ActiveUsersListViewModel.swift in Sources */,
 				C80D9A2F255080B000B0376A /* ViewFactory.swift in Sources */,
@@ -306,6 +321,7 @@
 				C80DB0FB25548EA100C7BD64 /* MockViewFactory.swift in Sources */,
 				C87740412557C297006F0C65 /* DebugView.swift in Sources */,
 				C80DB10A2556FCC300C7BD64 /* Message.swift in Sources */,
+				7C7FDBEE25612B89009C9163 /* ErrorViewModel.swift in Sources */,
 				C8B8F3DB254588220085E3E8 /* Constants.swift in Sources */,
 				C80D9A32255085AF00B0376A /* MockChatService.swift in Sources */,
 			);
