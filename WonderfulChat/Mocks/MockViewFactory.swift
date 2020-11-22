@@ -8,6 +8,7 @@
 import SwiftUI
 
 class MockViewFactory: IViewFactory {
+    
     func authorizationView() -> AnyView {
         AnyView(Text("Authorization view"))
     }
@@ -18,5 +19,9 @@ class MockViewFactory: IViewFactory {
     
     func chatView(user: User) -> AnyView {
         AnyView(Text("Chat view with user: \(user.name)"))
+    }
+
+    func errorView(description: String, retryAction: (() -> Void)?) -> AnyView {
+        AnyView(Text("Error view with description: \(description)"))
     }
 }

@@ -23,6 +23,9 @@ struct DebugView: View {
                         Text(item).tag(offset)
                     }
                 }
+                Button("Отключиться") {
+                    viewModel.disconnect()
+                }
             }
         }
         .navigationBarTitle("Debug")

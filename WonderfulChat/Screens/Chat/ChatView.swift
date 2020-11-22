@@ -57,22 +57,25 @@ struct ChatView: View {
     var viewModel: ChatViewModel
 
     var body: some View {
-            VStack(spacing: 16) {
-                // TODO: ⚠️ Сделать отдельный компонент для перевернутого скролвью
-                //https://www.hackingwithswift.com/books/ios-swiftui/scrollview-effects-using-geometryreader
-                //https://www.process-one.net/blog/writing-a-custom-scroll-view-with-swiftui-in-a-chat-application/
-                ScrollView {
-                    ForEach(viewModel.messages) { message in
-                        MessageCell(message: message)
-                    }
+        VStack(spacing: 16) {
+            // TODO: ⚠️ Сделать отдельный компонент для перевернутого скролвью
+            //https://www.hackingwithswift.com/books/ios-swiftui/scrollview-effects-using-geometryreader
+            //https://www.process-one.net/blog/writing-a-custom-scroll-view-with-swiftui-in-a-chat-application/
+            ScrollView {
+                ForEach(viewModel.messages) { message in
+                    MessageCell(message: message)
                 }
-                
-                NewMessageView(
-                    newMessage: $viewModel.newMessage,
-                    sendAction: viewModel.sendMessage)
             }
-            .navigationBarTitle(viewModel.interlocutor.name)
-            .padding()
+            
+            NewMessageView(
+                newMessage: $viewModel.newMessage,
+                sendAction: viewModel.sendMessage)
+        }
+        .navigationBarTitle(viewModel.interlocutor.name)
+        .padding()
+        .sheet(isPresented: $viewModel.haveUnhandledError, content: {
+            viewModel.route(to: .error(NSError(domain: "123", code: 123, userInfo: nil)))
+        })
     }
 }
 
@@ -92,7 +95,8 @@ struct ContentView_Previews: PreviewProvider {
                     viewModel: ChatViewModel(
                         user: User(name: "Test"),
                         authorizationService: MockAuthorizationService(),
-                        chatService: MockChatService()))
+                        chatService: MockChatService(),
+                        viewFactory: MockViewFactory()))
             }
         }
     }

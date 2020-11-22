@@ -15,22 +15,26 @@ class ActiveUsersListViewModel: ObservableObject {
         case chat(User)
     }
     
+    enum State {
+        case loading
+        case userList
+        case error
+    }
+    
     // dependencies
     private let authorizationService: IAuthorizationService
     private var chatService: IChatService
     private let viewFactory: IViewFactory
     
     // private varibles
-    private var trash: [AnyCancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     private var user: User? { authorizationService.user }
     
     // public variables
-    @Published
-    var activeUsers: [String] = []
-    @Published
-    var isNotAuthorized: Bool = true
-    @Published
-    var userName: String = ""
+    @Published var activeUsers = [User]()
+    @Published var isNotAuthorized = true
+    @Published var userName = ""
+    @Published var viewState = State.loading
     
     init(authorizationService: IAuthorizationService, chatService: IChatService, viewFactory: IViewFactory) {
         self.authorizationService = authorizationService
@@ -54,14 +58,15 @@ class ActiveUsersListViewModel: ObservableObject {
     }
     
     func didAppear() {
-        guard let authentificatedUser = user else { return }
-        chatService.connect(
-            userId: authentificatedUser.id,
-            userName: authentificatedUser.name)
+        connect()
     }
     
     func didDisappear() {
         // nothing
+    }
+    
+    func retryConnection() {
+        connect()
     }
     
     func testSendMessage() {
@@ -69,41 +74,46 @@ class ActiveUsersListViewModel: ObservableObject {
     }
 }
 
-extension ActiveUsersListViewModel: ChatServiceDelegate {
-
-    func didConnect() {
-        //
-    }
-    
-    func didDisconnect(with closeCode: Int) {
-        //
-    }
-    
-    func didReceive(activeUsers: [String]) {
-        DispatchQueue.main.async {
-            self.activeUsers = activeUsers
-        }
-    }
-    
-    func didReceive(error: Error) {
-        //
-    }
-}
-
 private extension ActiveUsersListViewModel {
     func setup() {
-        chatService.delegate = self
         
-        let authorizationUserCancellable = authorizationService.authorizationPublisher.sink { [weak self] user in
-            self?.userName = user?.name ?? ""
-            self?.isNotAuthorized = user == nil
-            
-            if let authentificatedUser = user {
-                self?.chatService.connect(
-                    userId: authentificatedUser.id,
-                    userName: authentificatedUser.name)
+        // subscribe on authorization events
+        authorizationService.authorizationPublisher
+            .sink { [weak self] user in
+                self?.userName = user?.name ?? ""
+                self?.isNotAuthorized = user == nil
+                
+                if let authentificatedUser = user {
+                    self?.chatService.connect(
+                        userId: authentificatedUser.id,
+                        userName: authentificatedUser.name)
+                }
+            }.store(in: &cancellables)
+        
+        // subscribe on active users events
+        chatService.activeUsersPublisher
+            .assign(to: &$activeUsers)
+        
+        // subcribe on connection events
+        chatService.statePublisher
+            .map { chatServiceState in
+                switch chatServiceState {
+                case .notConnected: return .error
+                case .connecting:   return .loading
+                case .connected:    return .userList
+                }
             }
-        }
-        trash.append(authorizationUserCancellable)
+            .assign(to: &$viewState)
+        
+        chatService.errorPublisher
+            .map { _ in State.error }
+            .assign(to: &$viewState)
+    }
+    
+    func connect() {
+        guard let authentificatedUser = user else { return }
+        chatService.connect(
+            userId: authentificatedUser.id,
+            userName: authentificatedUser.name)
     }
 }

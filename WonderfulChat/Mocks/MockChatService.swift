@@ -8,12 +8,28 @@
 import Combine
 
 class MockChatService: IChatService {
-    weak var delegate: ChatServiceDelegate?
-    let isConnected: Bool = true
+    var statePublisher: AnyPublisher<ChatService.State, Never> {
+        Just(.connected)
+            .eraseToAnyPublisher()
+    }
     
-    var messagesPublisher: AnyPublisher<Message, Never> = Just(
-        Message(id: "", senderId: "", receiverId: "", text: "123")
-    ).eraseToAnyPublisher()
+    var activeUsersPublisher: AnyPublisher<[User], Never> {
+        Just([User(id: "0", name: "TestUser0"),
+              User(id: "1", name: "TestUser1")])
+            .eraseToAnyPublisher()
+    }
+    
+    var messagePublisher: AnyPublisher<Message, Never> {
+        Just(Message(id: "0", senderId: "0", receiverId: "1", text: "Hello world!"))
+            .eraseToAnyPublisher()
+    }
+    
+    var errorPublisher: AnyPublisher<ChatServiceError, Never> {
+        Empty()
+            .eraseToAnyPublisher()
+    }
+    
+
     
     func connect(userId: String, userName: String) {}
     func disconnect() {}

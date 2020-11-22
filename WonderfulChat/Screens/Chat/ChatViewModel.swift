@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 struct MessageViewModel: Identifiable {
     let id = UUID()
@@ -15,23 +16,29 @@ struct MessageViewModel: Identifiable {
 }
 
 class ChatViewModel: ObservableObject {
+    
+    enum Route {
+        case error(Error)
+    }
+    
     private let authorizationService: IAuthorizationService
     private let chatService: IChatService
-    private var cancellable: AnyCancellable?
+    private let viewFactory: IViewFactory
+    private var cancellables = Set<AnyCancellable>()
     
     /// Собеседник
     let interlocutor: User
     
-    @Published
-    var messages: [MessageViewModel] = []
-    @Published
-    var newMessage: String = ""
+    @Published var messages = [MessageViewModel]()
+    @Published var newMessage = ""
+    /// Наличие необработанной ошибки (необходимость показать экран ошибки)
+    @Published var haveUnhandledError: Bool = false
     
-    init(user: User, authorizationService: IAuthorizationService, chatService: IChatService) {
+    init(user: User, authorizationService: IAuthorizationService, chatService: IChatService, viewFactory: IViewFactory) {
         self.interlocutor = user
         self.authorizationService = authorizationService
         self.chatService = chatService
-        addMockMessages()
+        self.viewFactory = viewFactory
         setup()
     }
     
@@ -46,28 +53,30 @@ class ChatViewModel: ObservableObject {
             text: newMessage)
         chatService.send(message.toJsonString())
     }
+    
+    func route(to route: Route) -> AnyView {
+        switch route {
+        case .error(let error):
+            return viewFactory.errorView(description: error.localizedDescription) {
+                print("🧯 Retrying")
+            }
+        }
+    }
 }
 
 private extension ChatViewModel {
     
     func setup() {
-        cancellable = chatService.messagesPublisher.sink { [weak self] newMessage in
-            let messageViewModel = MessageViewModel(text: newMessage.text, isMyMessage: false)
-            self?.messages.append(messageViewModel)
-        }
+        chatService.messagePublisher
+            .filter { [weak self] message in
+                message.senderId == self?.interlocutor.id
+            }.sink { [weak self] newMessage in
+                self?.messages.append(MessageViewModel(text: newMessage.text, isMyMessage: false))
+            }.store(in: &cancellables)
     }
     
     func isMyMessage(_ message: Message) -> Bool {
         message.senderId == authorizationService.user?.id
-    }
-
-    func addMockMessages() {
-        messages = [
-            MessageViewModel(text: "Hello", isMyMessage: false),
-            MessageViewModel(text: "How are you?", isMyMessage: false),
-            MessageViewModel(text: "Hi ✌️", isMyMessage: true),
-            MessageViewModel(text: "I'm fine", isMyMessage: true)
-        ]
     }
 }
 

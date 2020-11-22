@@ -28,20 +28,24 @@ class DebugViewModel: ObservableObject {
         self.settingsContainer = settingsContainer
         self.chatService = chatService
         setup()
-        }
+    }
+    
+    func disconnect() {
+        chatService.disconnect()
+    }
 }
 
 private extension DebugViewModel {
     func setup() {
-        cancellable = $selectedEndpoint.sink { [weak self] newSelectionIndex in
-            guard let self = self,
-                  newSelectionIndex >= 0,
-                  self.availableEndpoints.count > newSelectionIndex,
-                  let host = API.Host(rawValue: self.availableEndpoints[newSelectionIndex].element)
-            else { return }
-
-            self.settingsContainer.selectedEndpoint = host
-            self.chatService.disconnect()
+        cancellable = $selectedEndpoint
+            .sink { [weak self] newSelectionIndex in
+                guard let self = self,
+                      newSelectionIndex >= 0,
+                      self.availableEndpoints.count > newSelectionIndex,
+                      let host = API.Host(rawValue: self.availableEndpoints[newSelectionIndex].element)
+                else { return }
+                
+                self.settingsContainer.selectedEndpoint = host
         }
     }
 }
