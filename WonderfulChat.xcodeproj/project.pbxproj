@@ -3,15 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C3F957C256AC37C00437C03 /* TimelaneCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3F957B256AC37C00437C03 /* TimelaneCombine */; };
 		7C7FDBEA25612B7A009C9163 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7FDBE925612B7A009C9163 /* ErrorView.swift */; };
 		7C7FDBEE25612B89009C9163 /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7FDBED25612B89009C9163 /* ErrorViewModel.swift */; };
 		7CA643DC254ECB7900506DCC /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DB254ECB7900506DCC /* AuthorizationView.swift */; };
 		7CA643E0254ECF0E00506DCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DF254ECF0E00506DCC /* User.swift */; };
-		7CA643E6254ED48B00506DCC /* ActiveUsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */; };
+		7CA643E6254ED48B00506DCC /* ActiveUsersListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E5254ED48B00506DCC /* ActiveUsersListScreen.swift */; };
 		7CA643E9254EDB7300506DCC /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643E8254EDB7300506DCC /* ChatService.swift */; };
 		C80D9A2F255080B000B0376A /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D9A2E255080B000B0376A /* ViewFactory.swift */; };
 		C80D9A32255085AF00B0376A /* MockChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D9A31255085AF00B0376A /* MockChatService.swift */; };
@@ -40,7 +41,7 @@
 		7C7FDBED25612B89009C9163 /* ErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
 		7CA643DB254ECB7900506DCC /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		7CA643DF254ECF0E00506DCC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUsersListView.swift; sourceTree = "<group>"; };
+		7CA643E5254ED48B00506DCC /* ActiveUsersListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUsersListScreen.swift; sourceTree = "<group>"; };
 		7CA643E8254EDB7300506DCC /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C80D9A2E255080B000B0376A /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
 		C80D9A31255085AF00B0376A /* MockChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockChatService.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C3F957C256AC37C00437C03 /* TimelaneCombine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,20 +93,20 @@
 			children = (
 				C80DB0F12554810E00C7BD64 /* Authorization */,
 				C80DB0F4255487E200C7BD64 /* ActiveUsersList */,
-				C80DB10425569B6B00C7BD64 /* Сhat */,
+				C80DB10425569B6B00C7BD64 /* Chat */,
 				C87740462557D091006F0C65 /* Debug */,
 				7C7FDBE825612B5D009C9163 /* Error */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		C80D9A28254F587800B0376A /* Applicartion */ = {
+		C80D9A28254F587800B0376A /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				C8B8F3C9254586CC0085E3E8 /* WonderfulChatApp.swift */,
 				C80D9A2E255080B000B0376A /* ViewFactory.swift */,
 			);
-			path = Applicartion;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		C80D9A29254F588F00B0376A /* Entities */ = {
@@ -151,7 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				C80DB0F6255487F900C7BD64 /* ActiveUsersListViewModel.swift */,
-				7CA643E5254ED48B00506DCC /* ActiveUsersListView.swift */,
+				7CA643E5254ED48B00506DCC /* ActiveUsersListScreen.swift */,
 			);
 			path = ActiveUsersList;
 			sourceTree = "<group>";
@@ -166,13 +168,13 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
-		C80DB10425569B6B00C7BD64 /* Сhat */ = {
+		C80DB10425569B6B00C7BD64 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
 				C80DB10625569B7D00C7BD64 /* ChatViewModel.swift */,
 				C8B8F3CB254586CC0085E3E8 /* ChatView.swift */,
 			);
-			path = "Сhat";
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		C87740462557D091006F0C65 /* Debug */ = {
@@ -211,7 +213,7 @@
 		C8B8F3C8254586CC0085E3E8 /* WonderfulChat */ = {
 			isa = PBXGroup;
 			children = (
-				C80D9A28254F587800B0376A /* Applicartion */,
+				C80D9A28254F587800B0376A /* Application */,
 				7CA643E2254ECFB600506DCC /* Screens */,
 				C80D9A29254F588F00B0376A /* Entities */,
 				C80D9A2A254F58A100B0376A /* Services */,
@@ -247,6 +249,9 @@
 			dependencies = (
 			);
 			name = WonderfulChat;
+			packageProductDependencies = (
+				7C3F957B256AC37C00437C03 /* TimelaneCombine */,
+			);
 			productName = WonderfulChat;
 			productReference = C8B8F3C6254586CC0085E3E8 /* WonderfulChat.app */;
 			productType = "com.apple.product-type.application";
@@ -274,6 +279,9 @@
 				Base,
 			);
 			mainGroup = C8B8F3BD254586CC0085E3E8;
+			packageReferences = (
+				7C3F957A256AC37C00437C03 /* XCRemoteSwiftPackageReference "TimelaneCombine" */,
+			);
 			productRefGroup = C8B8F3C7254586CC0085E3E8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -315,7 +323,7 @@
 				C80DB0FF255491AD00C7BD64 /* AuthorizationService.swift in Sources */,
 				C877404A2557D0B9006F0C65 /* SettingsContainer.swift in Sources */,
 				C80DB10725569B7D00C7BD64 /* ChatViewModel.swift in Sources */,
-				7CA643E6254ED48B00506DCC /* ActiveUsersListView.swift in Sources */,
+				7CA643E6254ED48B00506DCC /* ActiveUsersListScreen.swift in Sources */,
 				C8AF0BE42557BC5900AC0F2B /* URL+Extension.swift in Sources */,
 				7CA643E9254EDB7300506DCC /* ChatService.swift in Sources */,
 				C80DB0FB25548EA100C7BD64 /* MockViewFactory.swift in Sources */,
@@ -512,6 +520,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7C3F957A256AC37C00437C03 /* XCRemoteSwiftPackageReference "TimelaneCombine" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/icanzilb/TimelaneCombine";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7C3F957B256AC37C00437C03 /* TimelaneCombine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C3F957A256AC37C00437C03 /* XCRemoteSwiftPackageReference "TimelaneCombine" */;
+			productName = TimelaneCombine;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C8B8F3BE254586CC0085E3E8 /* Project object */;
 }

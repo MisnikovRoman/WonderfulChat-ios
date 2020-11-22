@@ -9,5 +9,5 @@ import Foundation
 
 class SettingContainer {
     var availableEndpoints = API.Host.allCases
-    var selectedEndpoint = API.Host.heroku
+    var selectedEndpoint = API.Host.local
 }

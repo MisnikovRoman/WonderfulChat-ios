@@ -9,13 +9,11 @@ import Foundation
 import Combine
 
 protocol IChatService {
-    /// Делегат событий сервиса работы с вебсокетом
-    var delegate: ChatServiceDelegate? { get set }
-    /// Активность подключения к вебсокету
-    var isConnected: Bool { get }
-    /// Паблишер новых сообщений
-    var messagesPublisher: AnyPublisher<Message, Never> { get }
-    
+    var statePublisher: AnyPublisher<ChatService.State, Never> { get }
+    var activeUsersPublisher: AnyPublisher<[User], Never> { get }
+    var messagePublisher:     AnyPublisher<Message, Never> { get }
+    var errorPublisher:       AnyPublisher<ChatServiceError, Never> { get }
+
     /// Подключение к вебсокету
     /// - Parameters:
     ///   - userId: id нового пользователя
@@ -27,61 +25,89 @@ protocol IChatService {
     func send(_ text: String)
 }
 
-protocol ChatServiceDelegate: AnyObject {
-    func didReceive(activeUsers: [String])
-    func didReceive(error: Error)
-    func didConnect()
-    func didDisconnect(with closeCode: Int)
+enum ChatServiceError {
+    case send(Error)
+    case receive(Error)
+    case connection(Error)
+    case webSocketIsNotExists
 }
 
+
+
 class ChatService: NSObject {
-    weak var delegate: ChatServiceDelegate?
+    
+    enum State {
+        case notConnected, connecting, connected
+    }
+    
     private let settingsContainer: SettingContainer
     private var webSocketTask: URLSessionWebSocketTask?
     private var pingTimer: Timer?
     private lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
     /// Обновляется после получения Pong
     private var isPingSuccess: Bool = false
-    private var messagesPassthroughtSubject = PassthroughSubject<Message, Never>()
+    
+    // Publishers
+    @Published private var state: State = .notConnected
+    @Published private var activeUsers: [User] = []
+    @Published private var lastMessage: Message?
+    @Published private var lastError: ChatServiceError?
     
     init(settingsContainer: SettingContainer) {
         self.settingsContainer = settingsContainer
+        super.init()
     }
 }
 
 // MARK: - IChatService
 extension ChatService: IChatService {
     
-    var messagesPublisher: AnyPublisher<Message, Never> {
-        messagesPassthroughtSubject.eraseToAnyPublisher()
+    var statePublisher: AnyPublisher<State, Never> { $state.eraseToAnyPublisher() }
+    
+    var messagePublisher: AnyPublisher<Message, Never> {
+        $lastMessage
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
     
-    var isConnected: Bool {
-        return webSocketTask != nil && isPingSuccess
+    var activeUsersPublisher: AnyPublisher<[User], Never> { $activeUsers.eraseToAnyPublisher() }
+    
+    var errorPublisher: AnyPublisher<ChatServiceError, Never> {
+        $lastError
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
     
     func connect(userId: String, userName: String) {
-        guard !isConnected,
-              let request = createRequest(userId: userId, userName: userName) else { return }
-        
-        webSocketTask = session.webSocketTask(with: request)
-        webSocketTask?.resume()
-        setInputMessageHandler()
+        switch state {
+        case .notConnected:
+            break
+        case .connecting, .connected:
+            return
+        }
+
+        guard let request = createRequest(userId: userId, userName: userName) else { return }
+        session.webSocketTask(with: request).resume()
+        print("🌐 New request: /\(request.httpMethod ?? "") \(request.url?.absoluteString ?? "") headers: \(request.allHTTPHeaderFields ?? [:])")
+        state = .connecting
     }
     
     func disconnect() {
         stopPingTimer()
-        webSocketTask?.cancel(with: .goingAway, reason: nil)
-        webSocketTask = nil
+        
+        // closing all active websocket tasks in session
+        session.getAllTasks { urlSessionTasks in
+            urlSessionTasks
+                .compactMap { $0 as? URLSessionWebSocketTask }
+                .forEach { $0.cancel(with: .goingAway, reason: nil) }
+        }
     }
 
     func send(_ text: String) {
-        webSocketTask?.send(.string(text)) { [weak self] error in
-            guard let error = error else { return }
-            self?.delegate?.didReceive(error: error)
-            LocalNotifications.shared.present(
-                title: "⚠️ Не удалось отправить сообщение",
-                subtitle: "\(error.localizedDescription)")
+        guard let task = webSocketTask else { return report(.webSocketIsNotExists) }
+        task.send(.string(text)) { [weak self] error in
+            guard let systemError = error else { return }
+            self?.report(.send(systemError))
         }
     }
 }
@@ -89,8 +115,10 @@ extension ChatService: IChatService {
 // MARK: - URLSessionWebSocketDelegate
 extension ChatService: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
-        delegate?.didConnect()
+        self.webSocketTask = webSocketTask
+        state = .connected
         runPingTimer()
+        setInputMessageHandler()
         
         LocalNotifications.shared.present(
             title: "🕸 Соодинение установлено",
@@ -98,7 +126,11 @@ extension ChatService: URLSessionWebSocketDelegate {
     }
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
-        delegate?.didDisconnect(with: closeCode.rawValue)
+        
+        guard webSocketTask == self.webSocketTask else { return }
+        
+        self.webSocketTask = nil
+        state = .notConnected
         stopPingTimer()
         
         LocalNotifications.shared.present(
@@ -125,8 +157,15 @@ private extension ChatService {
             switch result {
             case .success(let message):
                 self?.handleIncomingMessage(message: message)
-            case .failure(let error):
-                self?.delegate?.didReceive(error: error)
+            case .failure(let systemError):
+                self?.report(.receive(systemError))
+                
+                // Обработка ошибки "Socket is not connected" (отключение локального сервера)
+                // не срабатывает делегат urlSession(_:webSocketTask:didCloseWith:reason:)
+                guard (systemError as NSError).code == 57 else { return }
+                self?.webSocketTask = nil
+                self?.state = .notConnected
+                self?.stopPingTimer()
             }
             self?.setInputMessageHandler()
         }
@@ -134,12 +173,15 @@ private extension ChatService {
     
     func handleIncomingMessage(message: URLSessionWebSocketTask.Message) {
         guard case let .string(text) = message else { return }
-        LocalNotifications.shared.present(title: "💬 Новое сообщение", subtitle: text)
+        
+        var debugMessage = (title: "💬 Новое сообщение", subtitle: text)
+        defer { LocalNotifications.shared.present(title: debugMessage.title, subtitle: debugMessage.subtitle) }
     
         if let message = try? JSONDecoder().decode(Message.self, from: Data(text.utf8)) {
-            messagesPassthroughtSubject.send(message)
+            lastMessage = message
+            debugMessage = (title: message.senderId, subtitle: message.text)
         } else if let users = try? JSONDecoder().decode([User].self, from: Data(text.utf8)) {
-            delegate?.didReceive(activeUsers: users.map { $0.name })
+            activeUsers = users
         }
     }
     
@@ -156,17 +198,28 @@ private extension ChatService {
     
     func ping() {
         webSocketTask?.sendPing { [weak self] error in
-            if let error = error {
+            if let systemError = error {
                 self?.isPingSuccess = false
-                self?.delegate?.didReceive(error: error)
+                self?.report(.connection(systemError))
                 self?.disconnect()
-                
-                LocalNotifications.shared.present(
-                    title: "⚠️ Ошибка пинга",
-                    subtitle: "\(error.localizedDescription)")
             } else {
                 self?.isPingSuccess = true
             }
+        }
+    }
+    
+    func report(_ error: ChatServiceError) {
+        lastError = error
+        
+        switch error {
+        case .send(let error):
+            LocalNotifications.shared.present(title: "⚠️ Не удалось отправить сообщение", subtitle: error.localizedDescription)
+        case .receive(let error):
+            LocalNotifications.shared.present(title: "⚠️ Не удалось получить сообщение", subtitle: error.localizedDescription)
+        case .connection(let error):
+            LocalNotifications.shared.present(title: "⚠️ Неудачный пинг сервера", subtitle: error.localizedDescription)
+        case .webSocketIsNotExists:
+            LocalNotifications.shared.present(title: "⚠️ Неизвестная ошибка", subtitle: "WebSocketTask отсутствуетs")
         }
     }
 }

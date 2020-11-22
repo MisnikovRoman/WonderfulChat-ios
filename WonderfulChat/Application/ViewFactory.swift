@@ -12,6 +12,7 @@ protocol IViewFactory {
     func authorizationView() -> AnyView
     func activeUsersListView() -> AnyView
     func chatView(user: User) -> AnyView
+    func errorView(description: String, retryAction: (() -> Void)?) -> AnyView
 }
 
 class ViewFactory: IViewFactory {
@@ -33,18 +34,24 @@ class ViewFactory: IViewFactory {
             authorizationService: authorizationService,
             chatService: chatService,
             viewFactory: self)
-        let view = ActiveUsersListView(viewModel: viewModel)
+        let view = ActiveUsersListScreen(viewModel: viewModel)
         return AnyView(view)
     }
     
     func chatView(user: User) -> AnyView {
-        let viewModel = ChatViewModel(user: user, authorizationService: authorizationService, chatService: chatService)
+        let viewModel = ChatViewModel(
+            user: user,
+            authorizationService: authorizationService,
+            chatService: chatService,
+            viewFactory: self)
         let view = ChatView(viewModel: viewModel)
         return AnyView(view)
     }
     
     func debugView() -> AnyView {
-        let viewModel = DebugViewModel(settingsContainer: settingContainer, chatService: chatService)
+        let viewModel = DebugViewModel(
+            settingsContainer: settingContainer,
+            chatService: chatService)
         let view = DebugView(viewModel: viewModel)
         return AnyView(view)
     }
