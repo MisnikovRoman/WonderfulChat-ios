@@ -1,21 +1,21 @@
-name: iOS starter workflow
+name: iOS CI workflow
 
- on:
-   push:
-     branches: [ master ]
-   pull_request:
-     branches: [ master ]
+on:
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
 
- jobs:
-   build:
-     name: Build and Test default scheme using any available iPhone simulator
-     runs-on: macos-latest
-
-     steps:
-       - name: Checkout
-         uses: actions/checkout@v2
-       - name: Install fastlane
-         run: bundle install 
-       - name: Build and run tests
-         run: bundle exec fastlane scan
+jobs:
+    build:
+        name: Build and Test default scheme using any available iPhone simulator
+        runs-on: macos-latest
+        
+        steps:
+            - name: Checkout
+                uses: actions/checkout@v2
+            - name: Install fastlane
+                run: bundle install
+            - name: Build and run tests
+                run: bundle exec fastlane scan
 
