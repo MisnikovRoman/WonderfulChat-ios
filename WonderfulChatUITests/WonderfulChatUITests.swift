@@ -42,8 +42,7 @@ class WonderfulChatUITests: XCTestCase {
             login()
         }
         
-        let tabBar = app.tabBars["Tab Bar"]
-        tabBar.buttons["Debug"].tap()
+        app.tabBars.buttons["Debug"].tap()
         
         // debug screen
         let serverButton = app.buttons[A11y.serverSelectButton]
