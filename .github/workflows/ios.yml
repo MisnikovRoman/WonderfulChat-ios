@@ -19,6 +19,7 @@ jobs:
       - name: Build and run tests
         run: bundle exec fastlane scan
       - name: Archive test results
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: test-report
