@@ -21,15 +21,12 @@ class WonderfulChatUITests: XCTestCase {
         let activeUsersNavigationBar = app.navigationBars["Active users"]
         
         // log out if is logged in
-        if activeUsersNavigationBar.exists {
+        if activeUsersNavigationBar.isHittable {
             app.buttons["Log out"].tap()
         }
-        
-        // login screen
-        XCTAssertTrue(introduceNavigationBar.exists)
-        app.textFields["name"].tap()
-        app.textFields["name"].typeText("Test")
-        app.buttons["Continue"].tap()
+            
+        XCTAssertTrue(introduceNavigationBar.isHittable)
+        login()
         
         // users list screen
         XCTAssertTrue(activeUsersNavigationBar.exists)
@@ -38,6 +35,13 @@ class WonderfulChatUITests: XCTestCase {
     }
     
     func testSwitchServer() {
+        
+        // login if needed
+        let introduceNavigationBar = app.navigationBars["Introduce yourself"]
+        if introduceNavigationBar.isHittable {
+            login()
+        }
+        
         let tabBar = app.tabBars["Tab Bar"]
         tabBar.buttons["Debug"].tap()
         
@@ -51,5 +55,17 @@ class WonderfulChatUITests: XCTestCase {
         serverButton.tap()
         app.cells["127.0.0.1:8080"].tap()
         app.buttons["Отключиться"].tap()
+    }
+}
+
+private extension WonderfulChatUITests {
+    func login() {
+        app.textFields["name"].tap()
+        app.textFields["name"].typeText("Test")
+        app.buttons["Continue"].tap()
+    }
+    
+    func logout() {
+        app.buttons["Log out"].tap()
     }
 }
