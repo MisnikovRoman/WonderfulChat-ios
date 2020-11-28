@@ -18,4 +18,9 @@ jobs:
         run: bundle install
       - name: Build and run tests
         run: bundle exec fastlane scan
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: ./test_output
 
