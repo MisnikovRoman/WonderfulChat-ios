@@ -11,7 +11,7 @@ import SwiftUI
 protocol IViewFactory {
     func authorizationView() -> AnyView
     func activeUsersListView() -> AnyView
-    func chatView(user: User) -> AnyView
+    func chatView(user: User, delegate: ChatViewDelegate?) -> AnyView
     func errorView(description: String, retryAction: (() -> Void)?) -> AnyView
 }
 
@@ -38,12 +38,13 @@ class ViewFactory: IViewFactory {
         return AnyView(view)
     }
     
-    func chatView(user: User) -> AnyView {
+    func chatView(user: User, delegate: ChatViewDelegate?) -> AnyView {
         let viewModel = ChatViewModel(
             user: user,
             authorizationService: authorizationService,
             chatService: chatService,
-            viewFactory: self)
+            viewFactory: self,
+            delegate: delegate)
         let view = ChatView(viewModel: viewModel)
         return AnyView(view)
     }

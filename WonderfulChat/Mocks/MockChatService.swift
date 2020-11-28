@@ -14,8 +14,9 @@ class MockChatService: IChatService {
     }
     
     var activeUsersPublisher: AnyPublisher<[User], Never> {
-        Just([User(id: "0", name: "TestUser0"),
-              User(id: "1", name: "TestUser1")])
+        Just([User(id: "0", name: "Костя"),
+              User(id: "1", name: "Константин"),
+              User(id: "2", name: "Константин Константинопольский"),])
             .eraseToAnyPublisher()
     }
     

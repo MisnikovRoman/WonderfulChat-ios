@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		7C3F957C256AC37C00437C03 /* TimelaneCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3F957B256AC37C00437C03 /* TimelaneCombine */; };
+		7C3F9582256AF1C000437C03 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F9581256AF1C000437C03 /* LoadingView.swift */; };
+		7C69A59A2572608800F38553 /* FaceEmojies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C69A5992572608800F38553 /* FaceEmojies.swift */; };
+		7C69A5A325726E2D00F38553 /* WonderfulChatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C69A5A225726E2D00F38553 /* WonderfulChatUITests.swift */; };
+		7C69A5AC25727B6A00F38553 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3DA254588220085E3E8 /* Constants.swift */; };
+		7C7E3256257259CB00EDC515 /* ActiveUserCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7E3255257259CB00EDC515 /* ActiveUserCardView.swift */; };
 		7C7FDBEA25612B7A009C9163 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7FDBE925612B7A009C9163 /* ErrorView.swift */; };
 		7C7FDBEE25612B89009C9163 /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7FDBED25612B89009C9163 /* ErrorViewModel.swift */; };
 		7CA643DC254ECB7900506DCC /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA643DB254ECB7900506DCC /* AuthorizationView.swift */; };
@@ -36,7 +41,23 @@
 		C8B8F3DB254588220085E3E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8F3DA254588220085E3E8 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7C69A5A525726E2D00F38553 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8B8F3BE254586CC0085E3E8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8B8F3C5254586CC0085E3E8;
+			remoteInfo = WonderfulChat;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		7C3F9581256AF1C000437C03 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		7C69A5992572608800F38553 /* FaceEmojies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceEmojies.swift; sourceTree = "<group>"; };
+		7C69A5A025726E2D00F38553 /* WonderfulChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WonderfulChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C69A5A225726E2D00F38553 /* WonderfulChatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderfulChatUITests.swift; sourceTree = "<group>"; };
+		7C69A5A425726E2D00F38553 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C7E3255257259CB00EDC515 /* ActiveUserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserCardView.swift; sourceTree = "<group>"; };
 		7C7FDBE925612B7A009C9163 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		7C7FDBED25612B89009C9163 /* ErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
 		7CA643DB254ECB7900506DCC /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
@@ -68,6 +89,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7C69A59D25726E2D00F38553 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8B8F3C3254586CC0085E3E8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,6 +107,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C3F9580256AF1A600437C03 /* CommonViews */ = {
+			isa = PBXGroup;
+			children = (
+				7C3F9581256AF1C000437C03 /* LoadingView.swift */,
+			);
+			path = CommonViews;
+			sourceTree = "<group>";
+		};
+		7C69A5A125726E2D00F38553 /* WonderfulChatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7C69A5A225726E2D00F38553 /* WonderfulChatUITests.swift */,
+				7C69A5A425726E2D00F38553 /* Info.plist */,
+			);
+			path = WonderfulChatUITests;
+			sourceTree = "<group>";
+		};
+		7C7E3254257259AB00EDC515 /* ActiveUserCard */ = {
+			isa = PBXGroup;
+			children = (
+				7C7E3255257259CB00EDC515 /* ActiveUserCardView.swift */,
+			);
+			path = ActiveUserCard;
+			sourceTree = "<group>";
+		};
 		7C7FDBE825612B5D009C9163 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +189,7 @@
 				C8B8F3DA254588220085E3E8 /* Constants.swift */,
 				C8B8F3CD254586CE0085E3E8 /* Assets.xcassets */,
 				C8B8F3D2254586CE0085E3E8 /* Info.plist */,
+				7C69A5992572608800F38553 /* FaceEmojies.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -152,6 +206,7 @@
 		C80DB0F4255487E200C7BD64 /* ActiveUsersList */ = {
 			isa = PBXGroup;
 			children = (
+				7C7E3254257259AB00EDC515 /* ActiveUserCard */,
 				C80DB0F6255487F900C7BD64 /* ActiveUsersListViewModel.swift */,
 				7CA643E5254ED48B00506DCC /* ActiveUsersListScreen.swift */,
 			);
@@ -198,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				C8B8F3C8254586CC0085E3E8 /* WonderfulChat */,
+				7C69A5A125726E2D00F38553 /* WonderfulChatUITests */,
 				C8B8F3C7254586CC0085E3E8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -206,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				C8B8F3C6254586CC0085E3E8 /* WonderfulChat.app */,
+				7C69A5A025726E2D00F38553 /* WonderfulChatUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,6 +272,7 @@
 			children = (
 				C80D9A28254F587800B0376A /* Application */,
 				7CA643E2254ECFB600506DCC /* Screens */,
+				7C3F9580256AF1A600437C03 /* CommonViews */,
 				C80D9A29254F588F00B0376A /* Entities */,
 				C80D9A2A254F58A100B0376A /* Services */,
 				C80DB0F925548E8C00C7BD64 /* Mocks */,
@@ -236,6 +294,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7C69A59F25726E2D00F38553 /* WonderfulChatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C69A5A725726E2D00F38553 /* Build configuration list for PBXNativeTarget "WonderfulChatUITests" */;
+			buildPhases = (
+				7C69A59C25726E2D00F38553 /* Sources */,
+				7C69A59D25726E2D00F38553 /* Frameworks */,
+				7C69A59E25726E2D00F38553 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7C69A5A625726E2D00F38553 /* PBXTargetDependency */,
+			);
+			name = WonderfulChatUITests;
+			productName = WonderfulChatUITests;
+			productReference = 7C69A5A025726E2D00F38553 /* WonderfulChatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		C8B8F3C5254586CC0085E3E8 /* WonderfulChat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C8B8F3D5254586CE0085E3E8 /* Build configuration list for PBXNativeTarget "WonderfulChat" */;
@@ -262,9 +338,13 @@
 		C8B8F3BE254586CC0085E3E8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1210;
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
+					7C69A59F25726E2D00F38553 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = C8B8F3C5254586CC0085E3E8;
+					};
 					C8B8F3C5254586CC0085E3E8 = {
 						CreatedOnToolsVersion = 12.1;
 					};
@@ -287,11 +367,19 @@
 			projectRoot = "";
 			targets = (
 				C8B8F3C5254586CC0085E3E8 /* WonderfulChat */,
+				7C69A59F25726E2D00F38553 /* WonderfulChatUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7C69A59E25726E2D00F38553 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8B8F3C4254586CC0085E3E8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -304,10 +392,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7C69A59C25726E2D00F38553 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C69A5A325726E2D00F38553 /* WonderfulChatUITests.swift in Sources */,
+				7C69A5AC25727B6A00F38553 /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8B8F3C2254586CC0085E3E8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C7E3256257259CB00EDC515 /* ActiveUserCardView.swift in Sources */,
 				C87740442557D08C006F0C65 /* DebugViewModel.swift in Sources */,
 				C84735BC255306D6004B8439 /* UserDefaultsStorage.swift in Sources */,
 				C80D9A3525508CE600B0376A /* LocalNotifications.swift in Sources */,
@@ -325,7 +423,9 @@
 				C80DB10725569B7D00C7BD64 /* ChatViewModel.swift in Sources */,
 				7CA643E6254ED48B00506DCC /* ActiveUsersListScreen.swift in Sources */,
 				C8AF0BE42557BC5900AC0F2B /* URL+Extension.swift in Sources */,
+				7C69A59A2572608800F38553 /* FaceEmojies.swift in Sources */,
 				7CA643E9254EDB7300506DCC /* ChatService.swift in Sources */,
+				7C3F9582256AF1C000437C03 /* LoadingView.swift in Sources */,
 				C80DB0FB25548EA100C7BD64 /* MockViewFactory.swift in Sources */,
 				C87740412557C297006F0C65 /* DebugView.swift in Sources */,
 				C80DB10A2556FCC300C7BD64 /* Message.swift in Sources */,
@@ -337,7 +437,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7C69A5A625726E2D00F38553 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8B8F3C5254586CC0085E3E8 /* WonderfulChat */;
+			targetProxy = 7C69A5A525726E2D00F38553 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		7C69A5A825726E2D00F38553 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJHX98NUDV;
+				INFOPLIST_FILE = WonderfulChatUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ru.mrf.WonderfulChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WonderfulChat;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Debug;
+		};
+		7C69A5A925726E2D00F38553 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJHX98NUDV;
+				INFOPLIST_FILE = WonderfulChatUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ru.mrf.WonderfulChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WonderfulChat;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Release;
+		};
 		C8B8F3D3254586CE0085E3E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -389,7 +539,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -444,7 +594,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -501,6 +651,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7C69A5A725726E2D00F38553 /* Build configuration list for PBXNativeTarget "WonderfulChatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C69A5A825726E2D00F38553 /* Debug */,
+				7C69A5A925726E2D00F38553 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C8B8F3C1254586CC0085E3E8 /* Build configuration list for PBXProject "WonderfulChat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

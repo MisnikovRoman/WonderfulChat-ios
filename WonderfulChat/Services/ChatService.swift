@@ -93,6 +93,8 @@ extension ChatService: IChatService {
     }
     
     func disconnect() {
+        webSocketTask = nil
+        state = .notConnected
         stopPingTimer()
         
         // closing all active websocket tasks in session
@@ -126,7 +128,6 @@ extension ChatService: URLSessionWebSocketDelegate {
     }
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
-        
         guard webSocketTask == self.webSocketTask else { return }
         
         self.webSocketTask = nil

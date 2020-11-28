@@ -22,7 +22,7 @@ struct DebugView: View {
                     ForEach(viewModel.availableEndpoints, id: \.element) { offset, item in
                         Text(item).tag(offset)
                     }
-                }
+                }.accessibility(identifier: A11y.serverSelectButton)
                 Button("Отключиться") {
                     viewModel.disconnect()
                 }

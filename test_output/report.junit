@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='WonderfulChatUITests.xctest' tests='2' failures='0'>
+  <testsuite name='WonderfulChatUITests.WonderfulChatUITests' tests='2' failures='0'>
+    <testcase classname='WonderfulChatUITests.WonderfulChatUITests' name='testLogin' time='4.471'/>
+    <testcase classname='WonderfulChatUITests.WonderfulChatUITests' name='testSwitchServer' time='5.379'/>
+  </testsuite>
+</testsuites>

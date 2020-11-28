@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import TimelaneCombine
 
 class ActiveUsersListViewModel: ObservableObject {
     enum Route {
@@ -29,12 +30,14 @@ class ActiveUsersListViewModel: ObservableObject {
     // private varibles
     private var cancellables = Set<AnyCancellable>()
     private var user: User? { authorizationService.user }
+    private var unreadMessages = [Message]()
     
     // public variables
-    @Published var activeUsers = [User]()
+    @Published var activeUsers = [ActiveUserViewModel]()
     @Published var isNotAuthorized = true
     @Published var userName = ""
     @Published var viewState = State.loading
+    @Published var isChatScreenOpened = false
     
     init(authorizationService: IAuthorizationService, chatService: IChatService, viewFactory: IViewFactory) {
         self.authorizationService = authorizationService
@@ -53,7 +56,7 @@ class ActiveUsersListViewModel: ObservableObject {
         case .authorization:
             return viewFactory.authorizationView()
         case .chat(let user):
-            return viewFactory.chatView(user: user)
+            return viewFactory.chatView(user: user, delegate: self)
         }
     }
     
@@ -69,8 +72,18 @@ class ActiveUsersListViewModel: ObservableObject {
         connect()
     }
     
-    func testSendMessage() {
-        chatService.send("👋🏻 Hello websocket")
+    func user(for activeUserViewModel: ActiveUserViewModel) -> User {
+        User(id: activeUserViewModel.id, name: activeUserViewModel.name)
+    }
+}
+
+extension ActiveUsersListViewModel: ChatViewDelegate {
+    func chatViewDidDisappear(interlocutor: User) {
+        activeUsers = activeUsers.map { user in
+            guard user.id == interlocutor.id else { return user }
+            user.unreadMessagesCount = 0
+            return user
+        }
     }
 }
 
@@ -92,8 +105,13 @@ private extension ActiveUsersListViewModel {
         
         // subscribe on active users events
         chatService.activeUsersPublisher
+            .map(createActiveUserViewModels)
             .assign(to: &$activeUsers)
-        
+        chatService.activeUsersPublisher
+            .map(createActiveUserViewModels)
+            .combineLatest(chatService.messagePublisher, updateUserViewModelsWithMessage)
+            .assign(to: &$activeUsers)
+
         // subcribe on connection events
         chatService.statePublisher
             .map { chatServiceState in
@@ -105,9 +123,11 @@ private extension ActiveUsersListViewModel {
             }
             .assign(to: &$viewState)
         
+        // subscribe on errors
         chatService.errorPublisher
             .map { _ in State.error }
             .assign(to: &$viewState)
+
     }
     
     func connect() {
@@ -115,5 +135,18 @@ private extension ActiveUsersListViewModel {
         chatService.connect(
             userId: authentificatedUser.id,
             userName: authentificatedUser.name)
+    }
+    
+    func createActiveUserViewModels(users: [User]) -> [ActiveUserViewModel] {
+        users.map { ActiveUserViewModel(id: $0.id, name: $0.name) }
+    }
+    
+    func updateUserViewModelsWithMessage(userViewModels: [ActiveUserViewModel], newMessage: Message) -> [ActiveUserViewModel] {
+        userViewModels.map { user in
+            if user.id == newMessage.senderId {
+                user.unreadMessagesCount += 1
+            }
+            return user
+        }
     }
 }
