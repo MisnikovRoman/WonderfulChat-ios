@@ -42,7 +42,9 @@ class WonderfulChatUITests: XCTestCase {
             login()
         }
         
-        app.tabBars.buttons["Debug"].tap()
+        let debugTabBarItem = app.tabBars.buttons["Debug"]
+        XCTAssertTrue(debugTabBarItem.waitForExistence(timeout: 2.0))
+        debugTabBarItem.tap()
         
         // debug screen
         let serverButton = app.buttons[A11y.serverSelectButton]
