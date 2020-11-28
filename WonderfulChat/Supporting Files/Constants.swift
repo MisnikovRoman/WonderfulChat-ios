@@ -20,3 +20,7 @@ enum API {
         case chat = "/chat"
     }
 }
+
+enum A11y {
+    static let serverSelectButton = "server_select"
+}
