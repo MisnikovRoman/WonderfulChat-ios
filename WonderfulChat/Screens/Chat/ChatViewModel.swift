@@ -9,6 +9,11 @@ import Foundation
 import Combine
 import SwiftUI
 
+
+protocol ChatViewDelegate: AnyObject {
+    func chatViewDidDisappear(interlocutor: User)
+}
+
 struct MessageViewModel: Identifiable {
     let id = UUID()
     let text: String
@@ -24,6 +29,7 @@ class ChatViewModel: ObservableObject {
     private let authorizationService: IAuthorizationService
     private let chatService: IChatService
     private let viewFactory: IViewFactory
+    private weak var delegate: ChatViewDelegate?
     private var cancellables = Set<AnyCancellable>()
     
     /// Собеседник
@@ -34,11 +40,12 @@ class ChatViewModel: ObservableObject {
     /// Наличие необработанной ошибки (необходимость показать экран ошибки)
     @Published var haveUnhandledError: Bool = false
     
-    init(user: User, authorizationService: IAuthorizationService, chatService: IChatService, viewFactory: IViewFactory) {
+    init(user: User, authorizationService: IAuthorizationService, chatService: IChatService, viewFactory: IViewFactory, delegate: ChatViewDelegate?) {
         self.interlocutor = user
         self.authorizationService = authorizationService
         self.chatService = chatService
         self.viewFactory = viewFactory
+        self.delegate = delegate
         setup()
     }
     
@@ -61,6 +68,10 @@ class ChatViewModel: ObservableObject {
                 print("🧯 Retrying")
             }
         }
+    }
+    
+    func didDisappear() {
+        delegate?.chatViewDidDisappear(interlocutor: interlocutor)
     }
 }
 

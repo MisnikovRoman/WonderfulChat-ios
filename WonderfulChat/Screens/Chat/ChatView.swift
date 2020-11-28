@@ -29,8 +29,7 @@ struct MessageCell: View {
 
 // MARK: - New message
 struct NewMessageView: View {
-    @Binding
-    var newMessage: String
+    @Binding var newMessage: String
     var sendAction: () -> ()
 
     var body: some View {
@@ -53,8 +52,7 @@ struct NewMessageView: View {
 // MARK: - Chat
 struct ChatView: View {
     
-    @ObservedObject
-    var viewModel: ChatViewModel
+    @ObservedObject var viewModel: ChatViewModel
 
     var body: some View {
         VStack(spacing: 16) {
@@ -76,6 +74,7 @@ struct ChatView: View {
         .sheet(isPresented: $viewModel.haveUnhandledError, content: {
             viewModel.route(to: .error(NSError(domain: "123", code: 123, userInfo: nil)))
         })
+        .onDisappear(perform: viewModel.didDisappear)
     }
 }
 
@@ -96,7 +95,8 @@ struct ContentView_Previews: PreviewProvider {
                         user: User(name: "Test"),
                         authorizationService: MockAuthorizationService(),
                         chatService: MockChatService(),
-                        viewFactory: MockViewFactory()))
+                        viewFactory: MockViewFactory(),
+                        delegate: nil))
             }
         }
     }
